@@ -21,5 +21,9 @@
   },
   "apiDefinition": {
     "url": ""
-  }
+  },
+  "skipApiBuild": true,
+  "skipAppBuild": false,
+  "apiLocation": "",
+  "appLocation": "/frontend"
 }
