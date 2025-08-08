@@ -1,4 +1,4 @@
-name: Deploy Frontend to Azure Static Web Apps
+name: Deploy Frontend to Azure Storage Static Website
 
 on:
   push:
@@ -33,20 +33,41 @@ jobs:
           cd frontend
           npm run build
 
-      - name: Prepare deployment files
-        run: |
-          mkdir -p deploy
-          cp -r frontend/build/* deploy/
-          cp frontend/staticwebapp.config.json deploy/ 2>/dev/null || echo "No config file to copy"
-
-      - name: Deploy to Azure Static Web Apps
-        uses: Azure/static-web-apps-deploy@v1
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/deploy"
-          output_location: ""
-          skip_app_build: true
-          deployment_environment: production
-          skip_api_build: true
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Storage Static Website
+        run: |
+          # Create storage account if it doesn't exist
+          az storage account create \
+            --name aynascollectionfrontend \
+            --resource-group aynas-collection-rg \
+            --location westeurope \
+            --sku Standard_LRS \
+            --kind StorageV2 \
+            --https-only true \
+            --min-tls-version TLS1_2
+
+          # Enable static website hosting
+          az storage blob service-properties update \
+            --account-name aynascollectionfrontend \
+            --static-website \
+            --index-document index.html \
+            --404-document index.html
+
+          # Get the storage account key
+          STORAGE_KEY=$(az storage account keys list --account-name aynascollectionfrontend --resource-group aynas-collection-rg --query '[0].value' -o tsv)
+
+          # Upload the built files
+          az storage blob upload-batch \
+            --account-name aynascollectionfrontend \
+            --account-key $STORAGE_KEY \
+            --source frontend/build \
+            --destination '$web' \
+            --overwrite
+
+          # Get the static website URL
+          STATIC_URL=$(az storage account show --name aynascollectionfrontend --resource-group aynas-collection-rg --query 'primaryEndpoints.web' -o tsv)
+          echo "Frontend deployed to: $STATIC_URL"
