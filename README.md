@@ -256,13 +256,83 @@ npm test
 
 ## 🚀 Deployment
 
-### Backend Deployment
+### Azure Deployment (Recommended)
+
+This project is configured for easy deployment to Azure using GitHub Actions. The deployment includes both the backend API and frontend application.
+
+#### Prerequisites
+- Azure account (free tier available)
+- Azure CLI installed
+- GitHub repository set up
+
+#### Quick Deployment
+
+1. **Run the Azure setup script**:
+   ```bash
+   ./deploy-to-azure.sh
+   ```
+
+2. **Set up GitHub Secrets**:
+   - Go to your GitHub repository → Settings → Secrets and variables → Actions
+   - Add the following secrets:
+     - `AZURE_WEBAPP_PUBLISH_PROFILE`: Get from Azure CLI command in the script output
+     - `AZURE_STATIC_WEB_APPS_API_TOKEN`: Get from Azure CLI command in the script output
+
+3. **Push to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Configure Azure deployment"
+   git push origin main
+   ```
+
+4. **Monitor Deployment**:
+   - Check GitHub Actions tab for deployment progress
+   - Your applications will be available at:
+     - Backend API: `https://aynas-collection-api.azurewebsites.net`
+     - Frontend: `https://aynas-collection.azurestaticapps.net`
+
+#### Manual Azure Setup
+
+If you prefer manual setup:
+
+1. **Install Azure CLI**:
+   ```bash
+   # macOS
+   brew install azure-cli
+   
+   # Windows
+   winget install Microsoft.AzureCLI
+   ```
+
+2. **Login to Azure**:
+   ```bash
+   az login
+   ```
+
+3. **Create Azure Resources**:
+   ```bash
+   # Create resource group
+   az group create --name aynas-collection-rg --location eastus
+   
+   # Create App Service Plan (Free tier)
+   az appservice plan create --name aynas-collection-plan --resource-group aynas-collection-rg --location eastus --sku F1 --is-linux
+   
+   # Create Web App for backend
+   az webapp create --name aynas-collection-api --resource-group aynas-collection-rg --plan aynas-collection-plan --runtime "DOTNETCORE:8.0"
+   
+   # Create Static Web App for frontend
+   az staticwebapp create --name aynas-collection --resource-group aynas-collection-rg --location eastus --source https://github.com/YourUsername/aynas-collection --branch main --app-location "/frontend" --api-location "/backend/AynasCollection.API" --output-location "build"
+   ```
+
+### Other Deployment Options
+
+#### Backend Deployment
 1. Update environment variables for production
 2. Configure production database
 3. Set up SSL certificates
 4. Deploy to Azure/AWS/Heroku
 
-### Frontend Deployment
+#### Frontend Deployment
 1. Build the production bundle
 2. Deploy to Vercel/Netlify/AWS S3
 

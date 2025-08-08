@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5136/api';
+// Use environment variable for API URL, with fallbacks for different environments
+const API_BASE_URL = process.env.REACT_APP_API_URL ||
+                     process.env.NODE_ENV === 'production'
+                       ? 'https://aynas-collection-api.azurewebsites.net/api'
+                       : 'http://localhost:5136/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
