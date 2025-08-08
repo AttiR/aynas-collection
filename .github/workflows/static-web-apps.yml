@@ -33,14 +33,20 @@ jobs:
           cd frontend
           npm run build
 
+      - name: Prepare deployment files
+        run: |
+          mkdir -p deploy
+          cp -r frontend/build/* deploy/
+          cp frontend/staticwebapp.config.json deploy/ 2>/dev/null || echo "No config file to copy"
+
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/frontend"
-          output_location: "build"
+          app_location: "/deploy"
+          output_location: ""
           skip_app_build: true
           deployment_environment: production
           skip_api_build: true
