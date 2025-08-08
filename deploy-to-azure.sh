@@ -21,7 +21,7 @@ echo "✅ Azure CLI is installed and you are logged in"
 
 # Set variables
 RESOURCE_GROUP="aynas-collection-rg"
-LOCATION="eastus"
+LOCATION="westeurope"
 APP_SERVICE_PLAN="aynas-collection-plan"
 WEB_APP_NAME="aynas-collection-api"
 STATIC_WEB_APP_NAME="aynas-collection"
