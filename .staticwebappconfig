@@ -18,5 +18,8 @@
     "apiBuildCommand": "",
     "appBuildCommand": "npm run build",
     "outputLocation": "build"
+  },
+  "apiDefinition": {
+    "url": ""
   }
 }

@@ -24,3 +24,5 @@ jobs:
           output_location: "build"
           skip_app_build: false
           deployment_environment: production
+          skip_api_build: true
+          app_build_command: "npm run build"
