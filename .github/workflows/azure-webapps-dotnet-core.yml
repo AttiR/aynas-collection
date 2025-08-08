@@ -17,6 +17,9 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
+    - name: Restore dependencies
+      run: dotnet restore backend/AynasCollection.API/AynasCollection.API.csproj
+
     - name: Build with dotnet
       run: dotnet build backend/AynasCollection.API/AynasCollection.API.csproj --no-restore
 
