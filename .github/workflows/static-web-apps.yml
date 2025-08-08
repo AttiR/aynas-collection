@@ -29,3 +29,5 @@ jobs:
           skip_api_build: true
           app_build_command: "npm run build"
           skip_deploy_on_missing_secrets: false
+          api_location: ""
+          api_build_command: ""

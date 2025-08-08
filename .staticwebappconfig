@@ -15,15 +15,7 @@
   },
   "buildProperties": {
     "skipBuildDuringDeploy": false,
-    "apiBuildCommand": "",
     "appBuildCommand": "npm run build",
     "outputLocation": "build"
-  },
-  "apiDefinition": {
-    "url": ""
-  },
-  "skipApiBuild": true,
-  "skipAppBuild": false,
-  "apiLocation": "",
-  "appLocation": "/frontend"
+  }
 }
