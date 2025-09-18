@@ -1,4 +1,8 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+// Use environment variable for API URL, with fallbacks for different environments
+const API_BASE_URL = process.env.REACT_APP_API_URL ||
+                     (process.env.NODE_ENV === 'production'
+                       ? 'https://aynas-collection-api.azurewebsites.net/api'
+                       : 'http://localhost:5136/api');
 
 export interface CartItemDto {
   productId: number;
