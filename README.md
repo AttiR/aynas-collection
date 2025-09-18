@@ -299,7 +299,7 @@ If you prefer manual setup:
    ```bash
    # macOS
    brew install azure-cli
-   
+
    # Windows
    winget install Microsoft.AzureCLI
    ```
@@ -313,13 +313,13 @@ If you prefer manual setup:
    ```bash
    # Create resource group
    az group create --name aynas-collection-rg --location eastus
-   
+
    # Create App Service Plan (Free tier)
    az appservice plan create --name aynas-collection-plan --resource-group aynas-collection-rg --location eastus --sku F1 --is-linux
-   
+
    # Create Web App for backend
    az webapp create --name aynas-collection-api --resource-group aynas-collection-rg --plan aynas-collection-plan --runtime "DOTNETCORE:8.0"
-   
+
    # Create Static Web App for frontend
    az staticwebapp create --name aynas-collection --resource-group aynas-collection-rg --location eastus --source https://github.com/YourUsername/aynas-collection --branch main --app-location "/frontend" --api-location "/backend/AynasCollection.API" --output-location "build"
    ```
@@ -365,10 +365,6 @@ dotnet ef database update
 ## 📄 License
 
 This project is licensed under the MIT License.
-
-## 🆘 Support
-
-For support, email support@aynascollection.com or create an issue in the repository.
 
 ---
 
