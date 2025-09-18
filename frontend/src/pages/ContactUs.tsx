@@ -164,7 +164,7 @@ const ContactUs: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-luxury-800 mb-1">Phone</h3>
-                    <p className="text-luxury-600">+1 (555) 123-4567</p>
+                    <p className="text-luxury-600">+1 (555) 00-111-1344444444</p>
                     <p className="text-luxury-600">Mon-Fri: 9AM-6PM EST</p>
                   </div>
                 </div>
@@ -179,8 +179,8 @@ const ContactUs: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-luxury-800 mb-1">Address</h3>
                     <p className="text-luxury-600">123 Fashion Avenue</p>
-                    <p className="text-luxury-600">New York, NY 10001</p>
-                    <p className="text-luxury-600">United States</p>
+                    <p className="text-luxury-600">XYZ, CITY 10001</p>
+                    <p className="text-luxury-600">Country</p>
                   </div>
                 </div>
               </div>
