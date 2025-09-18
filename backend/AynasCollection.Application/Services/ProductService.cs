@@ -21,6 +21,11 @@ namespace AynasCollection.Application.Services
                 .AsQueryable();
 
             // Apply filters
+            if (!string.IsNullOrEmpty(filter.SearchTerm))
+            {
+                query = query.Where(p => p.Name.Contains(filter.SearchTerm) || (p.Description != null && p.Description.Contains(filter.SearchTerm)));
+            }
+
             if (filter.CategoryId.HasValue)
             {
                 query = query.Where(p => p.CategoryId == filter.CategoryId.Value);
@@ -64,10 +69,13 @@ namespace AynasCollection.Application.Services
                     Name = p.Name,
                     Description = p.Description,
                     Price = p.Price,
+                    SalePrice = p.SalePrice,
                     MainImageUrl = p.MainImageUrl,
+                    ImageUrls = new List<string>(),
                     CategoryId = p.CategoryId,
                     CategoryName = p.Category.Name,
                     StockQuantity = p.StockQuantity,
+                    IsActive = p.IsActive,
                     IsFeatured = p.IsFeatured,
                     CreatedAt = p.CreatedAt,
                     Brand = p.Brand,
@@ -109,7 +117,9 @@ namespace AynasCollection.Application.Services
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
+                SalePrice = product.SalePrice,
                 MainImageUrl = product.MainImageUrl,
+                ImageUrls = new List<string>(),
                 CategoryId = product.CategoryId,
                 CategoryName = product.Category.Name,
                 StockQuantity = product.StockQuantity,
@@ -154,10 +164,13 @@ namespace AynasCollection.Application.Services
                     Name = p.Name,
                     Description = p.Description,
                     Price = p.Price,
+                    SalePrice = p.SalePrice,
                     MainImageUrl = p.MainImageUrl,
+                    ImageUrls = new List<string>(),
                     CategoryId = p.CategoryId,
                     CategoryName = p.Category.Name,
                     StockQuantity = p.StockQuantity,
+                    IsActive = p.IsActive,
                     IsFeatured = p.IsFeatured,
                     CreatedAt = p.CreatedAt,
                     Brand = p.Brand,
@@ -179,7 +192,7 @@ namespace AynasCollection.Application.Services
         {
             var query = _context.Products
                 .Include(p => p.Category)
-                .Where(p => p.Name.Contains(searchTerm) || p.Description.Contains(searchTerm))
+                .Where(p => p.Name.Contains(searchTerm) || (p.Description != null && p.Description.Contains(searchTerm)))
                 .OrderBy(p => p.Name);
 
             var totalCount = await query.CountAsync();
@@ -194,10 +207,13 @@ namespace AynasCollection.Application.Services
                     Name = p.Name,
                     Description = p.Description,
                     Price = p.Price,
+                    SalePrice = p.SalePrice,
                     MainImageUrl = p.MainImageUrl,
+                    ImageUrls = new List<string>(),
                     CategoryId = p.CategoryId,
                     CategoryName = p.Category.Name,
                     StockQuantity = p.StockQuantity,
+                    IsActive = p.IsActive,
                     IsFeatured = p.IsFeatured,
                     CreatedAt = p.CreatedAt,
                     Brand = p.Brand,

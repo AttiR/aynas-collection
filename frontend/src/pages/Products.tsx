@@ -14,19 +14,24 @@ const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    console.log('Products useEffect (categories) running');
     const fetchCategories = async () => {
       try {
         const cats = await productService.getCategories();
-        setCategories(cats);
+        console.log('Fetched categories:', cats);
+        console.log('Categories array length:', cats?.length);
+        setCategories(cats || []);
       } catch (error) {
         console.error('Error fetching categories:', error);
+        console.error('Categories error details:', error);
+        setCategories([]);
       }
     };
-
     fetchCategories();
   }, []);
 
   useEffect(() => {
+    console.log('Products useEffect (products) running, searchParams:', Object.fromEntries(searchParams.entries()));
     const fetchProducts = async () => {
       setLoading(true);
       try {
@@ -38,23 +43,29 @@ const Products: React.FC = () => {
         setSearchTerm(search);
         setCurrentPage(page);
 
+        console.log('Calling productService.getProducts with:', { page, pageSize: 12, categoryId: categoryId ? parseInt(categoryId) : undefined, searchTerm: search || undefined });
         const response = await productService.getProducts({
           page,
           pageSize: 12,
           categoryId: categoryId ? parseInt(categoryId) : undefined,
           searchTerm: search || undefined
         });
-
-        setProducts(response.products);
-        setTotalPages(response.totalPages);
-        setTotalCount(response.totalCount);
+        console.log('Fetched products response:', response);
+        console.log('Products array length:', response.products?.length);
+        console.log('First product:', response.products?.[0]);
+        setProducts(response.products || []);
+        setTotalPages(response.totalPages || 0);
+        setTotalCount(response.totalCount || 0);
       } catch (error) {
         console.error('Error fetching products:', error);
+        console.error('Error details:', error);
+        setProducts([]);
+        setTotalPages(0);
+        setTotalCount(0);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, [searchParams]);
 
@@ -90,6 +101,7 @@ const Products: React.FC = () => {
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen bg-cream-50">
