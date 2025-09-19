@@ -238,6 +238,15 @@ The system includes professional HTML email templates for:
 - **Input validation**
 - **Environment variable protection**
 
+### 🛡️ Azure Security Best Practices
+
+- **Resource Naming**: Use generic, non-descriptive names for Azure resources
+- **Access Control**: Implement proper RBAC (Role-Based Access Control)
+- **Network Security**: Use VNets and NSGs where appropriate
+- **Secrets Management**: Store sensitive data in Azure Key Vault
+- **Monitoring**: Enable Azure Security Center and logging
+- **Regular Updates**: Keep all dependencies and Azure services updated
+
 ## 🎨 Design System
 
 ### Color Palette
@@ -350,17 +359,17 @@ If you prefer manual setup:
 
 3. **Create Azure Resources**:
    ```bash
-   # Create resource group
-   az group create --name aynas-collection-rg --location eastus
+   # Create resource group (use a generic name)
+   az group create --name rg-ecommerce-prod --location eastus
 
    # Create App Service Plan (Free tier)
-   az appservice plan create --name aynas-collection-plan --resource-group aynas-collection-rg --location eastus --sku F1 --is-linux
+   az appservice plan create --name plan-ecommerce-prod --resource-group rg-ecommerce-prod --location eastus --sku F1 --is-linux
 
-   # Create Web App for backend
-   az webapp create --name aynas-collection-api --resource-group aynas-collection-rg --plan aynas-collection-plan --runtime "DOTNETCORE:8.0"
+   # Create Web App for backend (use generic name)
+   az webapp create --name app-api-prod --resource-group rg-ecommerce-prod --plan plan-ecommerce-prod --runtime "DOTNETCORE:8.0"
 
-   # Create Static Web App for frontend
-   az staticwebapp create --name aynas-collection --resource-group aynas-collection-rg --location eastus --source https://github.com/YourUsername/aynas-collection --branch main --app-location "/frontend" --api-location "/backend/AynasCollection.API" --output-location "build"
+   # Create Static Web App for frontend (use generic name)
+   az staticwebapp create --name app-frontend-prod --resource-group rg-ecommerce-prod --location eastus --source https://github.com/YourUsername/your-repo --branch main --app-location "/frontend" --api-location "/backend/YourProject.API" --output-location "build"
    ```
 
 ### Other Deployment Options
