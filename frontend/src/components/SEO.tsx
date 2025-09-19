@@ -21,7 +21,7 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({
   title = "Aynas Collection - Premium Fashion & Lifestyle",
   description = "Discover premium fashion and lifestyle products at Aynas Collection. Shop elegant dresses, stylish t-shirts, modern jeans, and trendy accessories.",
-  image = "https://brave-moss-071279d03.2.azurestaticapps.net/static/media/logo512.png",
+  image = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=630&fit=crop&crop=center",
   url = "https://brave-moss-071279d03.2.azurestaticapps.net/",
   type = "website",
   keywords = "fashion, clothing, dresses, t-shirts, jeans, jackets, accessories, premium fashion, lifestyle, style, trendy, elegant, Aynas Collection",
