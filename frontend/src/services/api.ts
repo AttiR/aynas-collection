@@ -3,7 +3,7 @@ import axios from 'axios';
 // Use environment variable for API URL, with fallbacks for different environments
 const API_BASE_URL = process.env.REACT_APP_API_URL ||
                      (process.env.NODE_ENV === 'production'
-                       ? 'https://aynas-collection-api.azurewebsites.net/api'
+                       ? 'https://brave-moss-071279d03.azurestaticapps.net/api'
                        : 'http://localhost:5136/api');
 
 // Force localhost for development
