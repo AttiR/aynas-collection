@@ -34,7 +34,8 @@ builder.Services.AddCors(options =>
         {
             // Production CORS policy
             var allowedOrigins = builder.Configuration.GetSection("CORS:AllowedOrigins").Get<string[]>() ??
-                                new[] {
+                                new[] { 
+                                    "https://brave-moss-071279d03.2.azurestaticapps.net",
                                     "https://brave-moss-071279d03.azurestaticapps.net",
                                     "https://aynas-collection.azurestaticapps.net"
                                 };
