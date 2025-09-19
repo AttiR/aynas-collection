@@ -7,8 +7,20 @@ module.exports = async function (context, req) {
         // Try to get data from the .NET API first
         const dotnetApiUrl = 'https://aynas-collection-api.azurewebsites.net/api/products';
         
+        context.log('Attempting to fetch from .NET API:', dotnetApiUrl);
+        
         const response = await new Promise((resolve, reject) => {
-            const request = https.get(dotnetApiUrl, (res) => {
+            const options = {
+                headers: {
+                    'User-Agent': 'Azure-Function/1.0',
+                    'Accept': 'application/json'
+                }
+            };
+            
+            const request = https.get(dotnetApiUrl, options, (res) => {
+                context.log('Response status:', res.statusCode);
+                context.log('Response headers:', res.headers);
+                
                 let data = '';
                 res.on('data', (chunk) => {
                     data += chunk;
@@ -16,18 +28,22 @@ module.exports = async function (context, req) {
                 res.on('end', () => {
                     try {
                         const jsonData = JSON.parse(data);
+                        context.log('Successfully fetched data from .NET API');
                         resolve(jsonData);
                     } catch (error) {
+                        context.log('Error parsing JSON:', error.message);
                         reject(error);
                     }
                 });
             });
             
             request.on('error', (error) => {
+                context.log('Request error:', error.message);
                 reject(error);
             });
             
-            request.setTimeout(5000, () => {
+            request.setTimeout(10000, () => {
+                context.log('Request timeout after 10 seconds');
                 request.destroy();
                 reject(new Error('Request timeout'));
             });
