@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { productService, Product } from '../services/productService';
 import { useCart } from '../contexts/CartContext';
+import SEO from '../components/SEO';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,7 +73,26 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <>
+      {product && (
+        <SEO 
+          title={product.name}
+          description={product.description || `Shop ${product.name} at Aynas Collection. ${product.brand ? `Brand: ${product.brand}. ` : ''}Price: $${product.price}. ${product.material ? `Material: ${product.material}. ` : ''}Available in ${product.color || 'various colors'}.`}
+          image={product.mainImageUrl}
+          url={`/products/${product.id}`}
+          type="product"
+          keywords={`${product.name}, ${product.brand}, ${product.category?.name}, fashion, clothing, ${product.color}, ${product.material}, Aynas Collection`}
+          product={{
+            name: product.name,
+            price: product.salePrice || product.price,
+            description: product.description || `Shop ${product.name} at Aynas Collection`,
+            image: product.mainImageUrl || '',
+            brand: product.brand || 'Aynas Collection',
+            availability: product.stockQuantity > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+          }}
+        />
+      )}
+      <div className="min-h-screen bg-cream-50">
       {/* Breadcrumb */}
       <div className="bg-white text-luxury-800 py-6 border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -265,7 +285,8 @@ const ProductDetail: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

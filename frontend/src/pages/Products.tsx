@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { productService, Product, Category } from '../services/productService';
+import SEO from '../components/SEO';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -104,7 +105,14 @@ const Products: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <>
+      <SEO 
+        title="Shop Our Collection - Aynas Collection"
+        description="Browse our complete collection of premium fashion items. Discover elegant dresses, stylish t-shirts, modern jeans, trendy jackets, and beautiful accessories."
+        keywords="shop, collection, fashion, clothing, dresses, t-shirts, jeans, jackets, accessories, browse, Aynas Collection"
+        url="/products"
+      />
+      <div className="min-h-screen bg-cream-50">
       {/* Header */}
       <div className="bg-white text-luxury-800 py-16 border-b border-cream-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -276,7 +284,8 @@ const Products: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

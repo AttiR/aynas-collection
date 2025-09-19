@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { productService, Product, Category } from '../services/productService';
+import SEO from '../components/SEO';
 
 const Home: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -35,7 +36,13 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <>
+      <SEO 
+        title="Aynas Collection - Premium Fashion & Lifestyle"
+        description="Discover premium fashion and lifestyle products at Aynas Collection. Shop elegant dresses, stylish t-shirts, modern jeans, and trendy accessories. Quality fashion for every occasion."
+        keywords="fashion, clothing, dresses, t-shirts, jeans, jackets, accessories, premium fashion, lifestyle, style, trendy, elegant, Aynas Collection"
+      />
+      <div className="min-h-screen bg-cream-50">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-white via-cream-50 to-cream-100 text-luxury-800 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-gold-500/5 to-gold-600/5"></div>
@@ -197,7 +204,8 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 
