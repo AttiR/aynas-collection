@@ -66,7 +66,7 @@ class ProductService {
   }
 
   async getFeaturedProducts(): Promise<Product[]> {
-    const response = await api.get<Product[]>('/products/featured');
+    const response = await api.get<Product[]>('/featured');
     return response.data;
   }
 
