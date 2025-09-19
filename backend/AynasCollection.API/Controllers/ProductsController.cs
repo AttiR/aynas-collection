@@ -15,6 +15,12 @@ namespace AynasCollection.API.Controllers
             _productService = productService;
         }
 
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok(new { message = "API is working!", timestamp = DateTime.UtcNow });
+        }
+
         [HttpGet]
         public async Task<ActionResult<ProductListResponse>> GetProducts([FromQuery] ProductFilterDto filter)
         {
