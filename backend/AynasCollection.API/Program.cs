@@ -48,8 +48,16 @@ builder.Services.AddCors(options =>
 });
 
 // Database Configuration
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
+{
+    // Fallback for production
+    var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "AynasCollection.db");
+    connectionString = $"Data Source={dbPath}";
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(connectionString));
 
 // JWT Configuration
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
@@ -111,7 +119,26 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated();
+    
+    try
+    {
+        // Ensure database is created
+        context.Database.EnsureCreated();
+        
+        // Check if data exists, if not, recreate the database to trigger seeding
+        if (!context.Products.Any() || !context.Categories.Any())
+        {
+            // Delete and recreate to trigger HasData() seeding
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+        }
+        
+        Console.WriteLine($"Database initialized. Products: {context.Products.Count()}, Categories: {context.Categories.Count()}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database initialization error: {ex.Message}");
+    }
 }
 
 app.Run();

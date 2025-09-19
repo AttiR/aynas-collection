@@ -20,11 +20,14 @@ namespace AynasCollection.API.Controllers
         {
             try
             {
+                Console.WriteLine("ProductsController: GetProducts called");
                 var response = await _productService.GetProductsAsync(filter);
+                Console.WriteLine($"ProductsController: Returning {response.Products.Count} products");
                 return Ok(response);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"ProductsController: Error - {ex.Message}");
                 return BadRequest(new { message = ex.Message });
             }
         }
