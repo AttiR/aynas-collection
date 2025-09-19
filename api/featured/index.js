@@ -6,9 +6,9 @@ module.exports = async function (context, req) {
     try {
         // Try to get data from the .NET API first
         const dotnetApiUrl = 'https://aynas-collection-api.azurewebsites.net/api/products/featured';
-        
+
         context.log('Attempting to fetch featured products from .NET API:', dotnetApiUrl);
-        
+
         const response = await new Promise((resolve, reject) => {
             const options = {
                 headers: {
@@ -16,10 +16,10 @@ module.exports = async function (context, req) {
                     'Accept': 'application/json'
                 }
             };
-            
+
             const request = https.get(dotnetApiUrl, options, (res) => {
                 context.log('Featured products response status:', res.statusCode);
-                
+
                 let data = '';
                 res.on('data', (chunk) => {
                     data += chunk;
@@ -35,12 +35,12 @@ module.exports = async function (context, req) {
                     }
                 });
             });
-            
+
             request.on('error', (error) => {
                 context.log('Featured products request error:', error.message);
                 reject(error);
             });
-            
+
             request.setTimeout(10000, () => {
                 context.log('Featured products request timeout after 10 seconds');
                 request.destroy();
@@ -61,7 +61,7 @@ module.exports = async function (context, req) {
 
     } catch (error) {
         context.log('Error fetching from .NET API, using real data directly:', error.message);
-        
+
         // Use real data directly instead of fallback
         const realFeaturedProducts = [
             {
