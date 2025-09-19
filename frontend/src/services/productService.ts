@@ -61,7 +61,7 @@ class ProductService {
   }
 
   async getCategories(): Promise<Category[]> {
-    const response = await api.get<Category[]>('/products/categories');
+    const response = await api.get<Category[]>('/categories');
     return response.data;
   }
 
