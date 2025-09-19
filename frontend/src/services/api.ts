@@ -18,6 +18,7 @@ console.log('REACT_APP_API_URL length:', process.env.REACT_APP_API_URL?.length);
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('API_BASE_URL:', API_BASE_URL);
 console.log('FINAL_API_BASE_URL:', FINAL_API_BASE_URL);
+console.log('🚀 API Debug - Updated for production testing');
 
 const api = axios.create({
   baseURL: FINAL_API_BASE_URL,
