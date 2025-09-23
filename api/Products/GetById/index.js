@@ -6,7 +6,69 @@ module.exports = async function (context, req) {
     const productId = context.bindingData.id;
     context.log('Product ID:', productId);
 
-    // Use hardcoded data for now to ensure it works
+    try {
+        // Try to get data from the .NET API first
+        const dotnetApiUrl = `https://aynas-collection-api.azurewebsites.net/api/products/${productId}`;
+
+        context.log('Attempting to fetch from .NET API:', dotnetApiUrl);
+
+        const response = await new Promise((resolve, reject) => {
+            const options = {
+                headers: {
+                    'User-Agent': 'Azure-Function/1.0',
+                    'Accept': 'application/json'
+                }
+            };
+
+            const request = https.get(dotnetApiUrl, options, (res) => {
+                context.log('Response status:', res.statusCode);
+                context.log('Response headers:', res.headers);
+
+                let data = '';
+                res.on('data', (chunk) => {
+                    data += chunk;
+                });
+                res.on('end', () => {
+                    try {
+                        const jsonData = JSON.parse(data);
+                        context.log('Successfully fetched data from .NET API');
+                        resolve(jsonData);
+                    } catch (error) {
+                        context.log('Error parsing JSON:', error.message);
+                        reject(error);
+                    }
+                });
+            });
+
+            request.on('error', (error) => {
+                context.log('Request error:', error.message);
+                reject(error);
+            });
+
+            request.setTimeout(10000, () => {
+                context.log('Request timeout after 10 seconds');
+                request.destroy();
+                reject(new Error('Request timeout'));
+            });
+        });
+
+        context.res = {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+            },
+            body: response
+        };
+        return;
+
+    } catch (error) {
+        context.log('Error fetching from .NET API, using hardcoded data:', error.message);
+    }
+
+    // Use hardcoded data as fallback
     const allProducts = [
         {
             id: 1,
