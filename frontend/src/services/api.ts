@@ -5,9 +5,6 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
   ? 'https://brave-moss-071279d03.2.azurestaticapps.net/api'
   : (process.env.REACT_APP_API_URL || 'http://localhost:5136/api');
 
-// Use .NET API directly for production (since Azure Functions have issues)
-const DOTNET_API_URL = 'https://aynas-collection-api.azurewebsites.net/api';
-
 // Force localhost for development
 const FINAL_API_BASE_URL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:5136/api'
