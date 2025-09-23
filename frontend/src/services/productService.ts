@@ -1,8 +1,4 @@
 import api from './api';
-import axios from 'axios';
-
-// Use .NET API directly for individual product requests (since Azure Functions have issues)
-const DOTNET_API_URL = 'https://aynas-collection-api.azurewebsites.net/api';
 
 export interface Product {
   id: number;
@@ -60,8 +56,7 @@ class ProductService {
   }
 
   async getProduct(id: number): Promise<Product> {
-    // Use .NET API directly for individual product requests (since Azure Functions have issues)
-    const response = await axios.get<Product>(`${DOTNET_API_URL}/products/${id}`);
+    const response = await api.get<Product>(`/products/${id}`);
     return response.data;
   }
 
